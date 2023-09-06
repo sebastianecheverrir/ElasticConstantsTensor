@@ -2,7 +2,10 @@
 
 
 ##################################################
+#User inputs
 
+#Initial unit vectors that define the cell, 
+#They correspond to the rprim parameter in abinit
 
 initial11=1
 initial12=0
@@ -15,19 +18,27 @@ initial32=0
 initial33=1
 
 
+#name of the template file that contains all the information needed to run the abinit simulation.
+#this file contains the coordinates of a fully previously relaxed structure
+InTEMPLATEFileName=FeBCCTEMPLATE.in
+
+#Name of the input files that are going to be created. Each folder will contain one file with this name, but with different deformations applied to the structure
+InFileName=FeBCC.in
+
+#Name of the file used to submit the jobs to a HPC cluster
+qsubFileName=runfileAbinitAzure.sh
+
+
+##################################################
+
+#Do not make changes from here on, unless you know what you are doing
 
 
 scalingVector=(-0.01 -0.005 0.005 0.01)
 componentVector=(11 22 33 23 13 12)
 
 
-InTEMPLATEFileName=FeBCCTEMPLATE.in
-InFileName=FeBCC.in
 
-qsubFileName=runfileAbinitAzure.sh
-
-
-##################################################
 function matrix_multiply {
 
 result11=`awk -v r11=$1 -v r12=$2 -v r13=$3 -v r21=$4 -v r22=$5 -v r23=$6 -v r31=$7 -v r32=$8 -v r33=$9  -v m11=${10} -v m12=${11} -v m13=${12} -v m21=${13} -v m22=${14} -v m23=${15} -v m31=${16} -v m32=${17} -v m33=${18} 'BEGIN{print r11*m11+r12*m21+r13*m31}'`
@@ -242,7 +253,7 @@ do
 
 	cd component${component}scale${scaling}
 	rm $InTEMPLATEFileName
-        sbatch $qsubFileName
+#        sbatch $qsubFileName
         cd ..
 
 
