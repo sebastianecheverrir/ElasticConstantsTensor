@@ -1,0 +1,152 @@
+#This file contains a vanadiumin BCC structure
+
+autoparal 3
+
+####################################################################
+#number of datasets
+  ndtset      1
+
+####################################################################
+#Definition of the unit cell
+
+acell
+     5.3633979095E+00  5.3633979095E+00  5.3633979095E+00 Bohr
+
+rprim
+#1.000000000000 0.00000000000000 0.00000000000000
+#0.00000000000000 1.000000000000 0.00000000000000
+#0.00000000000000 0.00000000000000 1.000000000000
+
+  chkprim     0             #CHecK whether the cell is PRIMitive
+                            #probably set to 0 when using supercells 
+
+#Definition of the atoms
+  ntypat      1
+  znucl       26            #The first atom will be type 1... 
+  natom       2
+  typat       1 1 
+             xred      0.0000000000E+00  0.0000000000E+00  0.0000000000E+00
+                       4.9999999813E-01  4.9999999813E-01  4.9999999813E-01
+
+####################################################################
+#symmetry considerations
+  chksymbreak 1             #CHecK SYMmetry BREAKing 
+                            #  for P1 supercells leave to 0
+                            #  for ground state calculations 0 can be used
+  nsym        0             #Number of SYMmetry operations 
+                            #  *If there is no symmetry in the problem then set nsym 
+                            #  to 1 because the identity is still a symmetry
+                            #  *If nsym is 0, all the atomic coordinates must be explicitely given
+                            # the code will then find automatically the symmetry operations
+
+  symrel     1 0 0          #SYMmetry in REaL space
+            0 1 0          #  Always give the identity matrix even if no other 
+           0 0 1          #  symmetries hold
+
+####################################################################
+#Definition of the k-point grid
+  kptopt      1             #KPoinTs OPTion
+                            # 1 is the usual mode for GS calculations 
+  ngkpt 11 11 11      # 18 18 18         #Number of Grid points for K PoinTs generation
+  nshiftk     1             #Number of SHIFTs for K point grids
+  shiftk      0.5 0.5 0.5   #SHIFT for K points
+                            #  When the primitive vectors of the lattice do NOT form a FCC 
+                            #  or a BCC lattice, use nshiftk=1 and shiftk 0.5 0.5 0.5 
+  prtkpt      1
+
+####################################################################
+#Variables related to the pseudo potential
+  iscf        17            #Integer for Self-Consistent-Field cycles 
+                            #  Use 17 for PAW pseudopotential
+  npulayit    7             #Number of PULAY ITerations for SC mixing 
+                            #  Needed only when iscf=7 or 17
+  ixc         11            #Integer for eXchange-Correlation choice 
+                            #  11=> GGA, Perdew-Burke-Ernzerhof GGA functional
+
+####################################################################
+#Definition of the planewave basis set
+  ecut 35       #36            #Energy CUToff 
+                            #the larger ecut 35is, the better converged the calculation is
+  pawecutdg   111            #PAW - Energy CUToff for the Double Grid
+                            #  MUST be specified for PAW calculations.
+                            #  should be between 2.5 and 3.5 ecut 35
+
+####################################################################
+#Occupation variables
+  occopt      3             #OCCupation OPTion 
+                            #  Metallic occupation of levels. 
+                            #  occopt=3:Fermi-Dirac smearing (finite-temperature metal)
+                            #   
+  nband       20            #Number of BANDs
+                            # Should be (at least) equal to the number of valence 
+                            #  electrons for spin polarized or half that value for
+                            #  other calculations
+                            #  Should be multiple of the number of processors
+                            
+####################################################################
+#Smearing
+# this is to be used when working with metals
+  tsmear 0.001     # 0.001        #Temperature of SMEARing
+                            #  For d-band metals, use 0.01 Ha as first approx.
+                            #  A convergence study is needed for this variable
+                            #  The smaller the better (but longer calc. time)
+
+####################################################################
+#spin related quantities
+# this is to be used when magnetism is expected. It could also be used
+# when working with a metallic material
+
+  nsppol      2             #Number of SPin POLarization
+                            #  If nsppol=2, spin-polarized calculation
+  nspden      2             #Number of SPin-DENsity components
+                            #  If nspden=2, scalar magnetization
+  spinat                    #It seems that starting with 0 0 4 is good
+              0.0 0.0 4.0
+              0.0 0.0 4.0
+
+####################################################################
+#Definition of the SCF procedure
+  nstep       500
+  tolvrs      1.0d-10       #TOLerance on the potential V(r) ReSidual
+
+####################################################################
+#variables that might speed up convergence
+  diemac      1e+06         #DIElectric MACroscopic constant 
+                            #  For metals, the default 10^6 is OK 
+  diemix      0.3           #0.4 according to Robin
+#  diemixmag   -4            #
+#  iprcel      45            #For non-homogeneous relatively large 
+                            #cells iprcel=45 will likely give a large
+                            #improvement over iprcel=0. It seems to 
+                            #crash when using spin polarization
+
+####################################################################
+#Variables related to parallelization
+#  paral_kgb   -n            #n is the number of processors available
+#  paral_kgb   1 npband 2 npfft 1
+
+####################################################################
+#structural optimization
+# these paramaeters need to be defined when a structural optimization
+# wants to be done
+
+  ionmov      2             #2=Broyden structural minimization
+  optcell     0             #0=do not change cell
+                             # 1=Only optimize volume (and positions)
+                             # 2=full optimization of cell geometry (volume,position and shape)
+  ecutsm      0.5           #Use when optcell!=0. Recommended value by abinit 0.5
+  ntime       200           #Max Steps for structural relaxation
+  tolmxf      5e-7          #Values for the convergence of the forces
+                             # 5e-5 is the default value of abinit
+  dilatmx     1.1           #DILATation : MaXimal value
+#                            # maximal permitted scaling of the lattice parameters
+
+####################################################################
+#Varable to control some outputs
+#  prtdos      1             #Write  the total density of states
+  prtden      1            #This writes the file that can be used 
+                           #  for visualization (for cut3d)
+  optforces   1            #Add to conserve old < 6.7.2 behavior 
+                           # for calculating forces at each SCF step
+
+
