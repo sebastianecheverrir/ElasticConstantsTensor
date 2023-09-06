@@ -21,4 +21,4 @@ This script will output the elastic constants tensor and some other additional i
 
 If you use this software, please cite 
 
-S. Echeverri Restrepo, Density functional theory characterisation of cementite (Fe<sub>3</sub>C) with substitutional molybdenum (Mo) atoms, Phys. B Condens. Matter. 631 (2022) 413669. [label](https://doi.org/10.1016/j.physb.2022.413669.)
+S. Echeverri Restrepo, Density functional theory characterisation of cementite (Fe<sub>3</sub>C) with substitutional molybdenum (Mo) atoms, Phys. B Condens. Matter. 631 (2022) 413669. [https://doi.org/10.1016/j.physb.2022.413669](https://doi.org/10.1016/j.physb.2022.413669)
