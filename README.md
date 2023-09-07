@@ -6,7 +6,7 @@ Scripts to calculate the elastic tensor of a periodic structure using Abinit.
 
 The process is as follows:
 
-1. Run the bash script `ElasticConstants.sh`. This script generates 24 folders, each one containing the initial structure with a different deformation appplied to it.
+1. Run the bash script `ElasticConstants.sh`. This script generates 24 folders, each one containing the initial structure with a different deformation applied to it. Four independent deformations of `[-0.01 -0.005 0.005 0.01]` are applied  along the directions  `[11 22 33 23 13 12]`.
 
 2. Go to each folder and run the Abinit calculations
 
