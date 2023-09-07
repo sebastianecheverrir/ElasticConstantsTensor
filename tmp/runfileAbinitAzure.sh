@@ -9,12 +9,6 @@
 
 
 
-echo "Running a simple testjob"
-
-echo "=========================================================="
-echo "SLURM JOB $SLURM_JOB_ID started " `date`
-echo "=========================================================="
-
 . /shared/apps/spack/0.16.0/spack/share/spack/setup-env.sh
 
 module purge
@@ -26,12 +20,4 @@ export OMP_NUM_THREADS=1
 
 
 mpirun  abinit < FeBCC.files  > log
-
-
-
-
-echo "=========================================================="
-echo "SLURM JOB $SLURM_JOB_ID finished " `date`
-echo "=========================================================="
-
 
